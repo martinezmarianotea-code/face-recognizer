@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>Face Recognizer · Local</title>
+  <link rel="stylesheet" href="/assets/app.css">
+  <script src="/assets/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#inicio" aria-label="Face Recognizer, inicio">
+        <span class="brand-mark">FR</span>
+        <span class="brand-copy"><strong>Face Recognizer</strong><small>Espacio local</small></span>
+      </a>
+
+      <p class="nav-caption">ESPACIO DE TRABAJO</p>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <button class="nav-item active" data-page="inicio"><span class="nav-icon">⌂</span>Inicio</button>
+        <button class="nav-item" data-page="personas"><span class="nav-icon">♙</span>Personas</button>
+        <button class="nav-item" data-page="capturar"><span class="nav-icon">＋</span>Registrar rostro</button>
+        <button class="nav-item" data-page="entrenar"><span class="nav-icon">◈</span>Entrenar modelo</button>
+        <button class="nav-item" data-page="reconocer"><span class="nav-icon">◎</span>Reconocer</button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="local-card">
+          <span class="local-icon">✓</span>
+          <div><strong>Procesamiento local</strong><p>Las imágenes se quedan en este equipo.</p></div>
+        </div>
+        <div class="model-indicator"><span class="status-dot" id="sidebar-dot"></span><span id="sidebar-model">Comprobando modelo…</span></div>
+        <a class="sidebar-link" href="https://github.com/martinezmarianotea-code/face-recognizer" target="_blank" rel="noreferrer">Acerca del proyecto <span>↗</span></a>
+      </div>
+    </aside>
+
+    <main class="main-area">
+      <header class="topbar">
+        <div><span class="breadcrumb">Face Recognizer</span><span class="breadcrumb-sep">/</span><strong id="page-label">Inicio</strong></div>
+        <div class="topbar-right"><span class="local-pill"><span></span>Solo en este dispositivo</span><button class="icon-button mobile-menu" id="mobile-menu" aria-label="Abrir navegación">☰</button></div>
+      </header>
+
+      <div class="page-wrap">
+        <section class="page active" id="page-inicio">
+          <div class="page-heading"><div><p class="eyebrow">TU ESPACIO PRIVADO</p><h1>Reconocimiento facial local</h1><p class="subtitle">Registra rostros y analiza imágenes con herramientas que se ejecutan en tu computadora.</p></div><button class="button button-primary" data-go="capturar"><span>＋</span> Registrar persona</button></div>
+          <div class="hero-panel">
+            <div class="hero-copy"><span class="hero-label"><span class="pulse-dot"></span> ENTORNO LOCAL</span><h2>Todo bajo tu control.</h2><p>La cámara y las imágenes se procesan aquí. No se envían a servicios externos.</p><div class="hero-actions"><button class="button button-light" data-go="reconocer">Abrir reconocimiento <span>→</span></button><span class="hero-caption">MediaPipe&nbsp; · &nbsp;OpenCV LBPH</span></div></div>
+            <div class="hero-art" aria-hidden="true"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="face-outline"><span class="face-eye eye-left"></span><span class="face-eye eye-right"></span><span class="face-smile"></span><i></i><b></b></div><span class="scan-line"></span></div>
+          </div>
+          <section class="spotlight-card" aria-labelledby="spotlight-title">
+            <div class="spotlight-visual" aria-hidden="true">
+              <svg class="spotlight-rings" viewBox="0 0 240 200" fill="none"><circle cx="120" cy="100" r="76"/><circle cx="120" cy="100" r="54"/><path d="M37 100h166M120 17v166M61 41l118 118M179 41 61 159"/><circle class="spotlight-core" cx="120" cy="100" r="25"/></svg>
+              <span class="spotlight-monogram">GB</span><span class="spotlight-orbit orbit-a"></span><span class="spotlight-orbit orbit-b"></span>
+            </div>
+            <div class="spotlight-content"><span class="spotlight-kicker"><span></span> REFERENTE DE VISIÓN POR COMPUTADORA</span><h2 id="spotlight-title">Gary Bradski</h2><p>Fundador de OpenCV: una biblioteca que acercó herramientas de visión artificial a investigadores y desarrolladores de todo el mundo.</p><a href="https://opencv.org/leadership/" target="_blank" rel="noopener noreferrer">Conocer su perfil en OpenCV <span>↗</span></a></div>
+            <div class="spotlight-aside"><span class="spotlight-badge">CÓDIGO ABIERTO</span><p>Perfil editorial. No se agrega al dataset ni se incluyen imágenes de su rostro.</p><div class="spotlight-signature">VISION<br><strong>FOR ALL</strong></div></div>
+          </section>
+          <div class="stats-grid">
+            <article class="stat-card"><span class="stat-icon icon-blue">♙</span><div><span class="stat-label">Personas registradas</span><strong id="stat-people">—</strong></div></article>
+            <article class="stat-card"><span class="stat-icon icon-violet">▧</span><div><span class="stat-label">Recortes faciales</span><strong id="stat-images">—</strong></div></article>
+            <article class="stat-card"><span class="stat-icon icon-green">◈</span><div><span class="stat-label">Estado del modelo</span><strong class="stat-model" id="stat-model">Comprobando</strong></div></article>
+          </div>
+          <div class="section-heading"><div><p class="eyebrow">FLUJO DE TRABAJO</p><h2>Empieza en tres pasos</h2></div></div>
+          <div class="workflow-grid">
+            <article class="workflow-card"><span class="step-number">01</span><div class="workflow-icon">♙</div><h3>Registra personas</h3><p>Captura recortes con la cámara y consentimiento.</p><button class="text-button" data-go="capturar">Ir al registro <span>→</span></button></article>
+            <article class="workflow-card"><span class="step-number">02</span><div class="workflow-icon violet">◈</div><h3>Entrena el modelo</h3><p>Construye el reconocedor con tus recortes locales.</p><button class="text-button" data-go="entrenar">Entrenar modelo <span>→</span></button></article>
+            <article class="workflow-card"><span class="step-number">03</span><div class="workflow-icon green">◎</div><h3>Reconoce</h3><p>Analiza una imagen o inicia la cámara en vivo.</p><button class="text-button" data-go="reconocer">Abrir herramienta <span>→</span></button></article>
+          </div>
+          <div class="notice"><span class="notice-symbol">i</span><p><strong>Uso experimental.</strong> No es un sistema de seguridad ni debe utilizarse para decisiones importantes. Solicita consentimiento antes de capturar rostros.</p></div>
+        </section>
+
+        <section class="page" id="page-personas">
+          <div class="page-heading"><div><p class="eyebrow">DATASET LOCAL</p><h1>Personas</h1><p class="subtitle">Administra los perfiles y los recortes guardados en este dispositivo.</p></div><button class="button button-primary" data-go="capturar"><span>＋</span> Registrar persona</button></div>
+          <div class="people-toolbar"><div class="search-wrap"><span>⌕</span><input id="people-search" type="search" placeholder="Buscar persona" aria-label="Buscar persona"></div><span class="muted" id="people-count">—</span></div>
+          <section class="dataset-overview" aria-labelledby="dataset-overview-title">
+            <div class="dataset-summary"><span class="overview-icon">▥</span><p class="eyebrow">CALIDAD DEL DATASET</p><h2 id="dataset-overview-title">Equilibrio de capturas</h2><p>Se recomiendan al menos 15 recortes variados por persona.</p><div class="coverage-line"><strong id="coverage-count">0</strong><span id="coverage-label">perfiles con capturas suficientes</span></div></div>
+            <div class="dataset-bars" id="dataset-bars" aria-label="Capturas por persona"></div>
+          </section>
+          <div class="people-grid" id="people-grid"></div>
+          <div class="empty-state hidden" id="people-empty"><div class="empty-icon">♙</div><h2>Aún no hay personas</h2><p>Registra un perfil para empezar a crear tu dataset local.</p><button class="button button-primary" data-go="capturar">Registrar primera persona</button></div>
+        </section>
+
+        <section class="page" id="page-capturar">
+          <div class="page-heading"><div><p class="eyebrow">DATASET LOCAL</p><h1>Registrar rostros</h1><p class="subtitle">Captura un recorte facial con la cámara de este dispositivo.</p></div></div>
+          <div class="capture-layout">
+            <article class="panel capture-panel"><div class="panel-heading"><div><span class="panel-kicker">PASO 1</span><h2>Selecciona o crea un perfil</h2></div><span class="panel-icon">♙</span></div>
+              <label class="field-label" for="person-name">Nombre de la persona</label><input class="text-input" id="person-name" maxlength="80" autocomplete="off" placeholder="Ej. Alex Rivera">
+              <p class="field-hint">Usa un nombre reconocible. El perfil y las imágenes permanecen localmente.</p>
+              <div class="capture-camera"><video id="capture-video" autoplay playsinline muted></video><canvas id="capture-canvas" class="capture-canvas"></canvas><div class="camera-placeholder" id="capture-placeholder"><span class="camera-symbol">◉</span><strong>La cámara está desconectada</strong><span>Conéctala para tomar una captura.</span></div><span class="camera-live hidden" id="capture-live"><i></i> CÁMARA ACTIVA</span></div>
+              <div class="camera-actions"><button class="button button-secondary" id="capture-connect">Conectar cámara</button><button class="button button-primary" id="capture-save" disabled>Capturar y guardar</button></div>
+              <p class="inline-status" id="capture-message" role="status"></p>
+            </article>
+            <aside class="panel side-info"><span class="info-icon">✳</span><h3>Una buena captura ayuda</h3><ul><li>Mira hacia la cámara con el rostro despejado.</li><li>Busca luz frontal y un fondo sencillo.</li><li>Guarda varias imágenes con ángulos y expresiones distintos.</li><li>Se recomienda registrar al menos 15 recortes por persona.</li></ul><div class="privacy-note"><strong>Privacidad primero</strong><p>Solo se guarda el recorte facial. La imagen de cámara se descarta al terminar la solicitud.</p></div></aside>
+          </div>
+        </section>
+
+        <section class="page" id="page-entrenar">
+          <div class="page-heading"><div><p class="eyebrow">MODELO LOCAL</p><h1>Entrenar modelo</h1><p class="subtitle">Actualiza el reconocedor con las imágenes válidas del dataset.</p></div></div>
+          <div class="training-layout"><article class="panel training-main"><div class="training-emblem">◈</div><p class="eyebrow">CLASIFICADOR LBPH</p><h2>Prepara tu modelo</h2><p>El entrenamiento se ejecuta en esta computadora. Al añadir o eliminar imágenes tendrás que volver a entrenar.</p><div class="training-stats"><div><strong id="train-people">—</strong><span>personas</span></div><div><strong id="train-images">—</strong><span>recortes</span></div><div><strong id="train-status">—</strong><span>estado actual</span></div></div><button class="button button-primary button-wide" id="train-start">Iniciar entrenamiento</button><div class="progress-track hidden" id="train-progress"><span></span></div><p class="inline-status" id="train-message" role="status"></p></article><aside class="panel side-info"><span class="info-icon violet">✓</span><h3>Recomendaciones</h3><ul><li>Incluye imágenes nítidas y variadas.</li><li>Evita fotos repetidas o con varias caras prominentes.</li><li>Comprueba que cada perfil tenga suficientes recortes.</li><li>El resultado es experimental, no una probabilidad de identidad.</li></ul><div class="privacy-note"><strong>Datos bajo tu control</strong><p>El archivo del modelo se guarda dentro de la carpeta local <code>models/</code>.</p></div></aside></div>
+        </section>
+
+        <section class="page" id="page-reconocer">
+          <div class="page-heading"><div><p class="eyebrow">ANÁLISIS LOCAL</p><h1>Reconocer</h1><p class="subtitle">Analiza una imagen seleccionada o inicia el reconocimiento en vivo.</p></div><label class="button button-secondary upload-button">Analizar imagen<input id="recognize-file" type="file" accept="image/jpeg,image/png,image/webp"></label></div>
+          <div class="recognize-layout"><article class="panel recognize-main"><div class="panel-heading"><div><span class="panel-kicker">VISTA PREVIA</span><h2>Cámara o imagen</h2></div><span class="recognition-state" id="recognition-state"><i></i> En espera</span></div>
+            <video id="recognize-video" autoplay playsinline muted></video><canvas id="recognize-canvas"></canvas><div class="recognize-placeholder" id="recognize-placeholder"><span class="camera-symbol">◎</span><strong>Listo para analizar</strong><span>Conecta la cámara o selecciona una imagen.</span></div>
+            <div class="camera-actions"><button class="button button-primary" id="recognize-connect">Iniciar cámara</button><button class="button button-secondary hidden" id="recognize-stop">Detener</button><span class="faces-found" id="faces-found"></span></div>
+          </article><aside class="panel side-info"><span class="info-icon green">◎</span><h3>Opciones de análisis</h3><label class="check-row"><input id="option-mesh" type="checkbox" checked><span class="custom-check"></span><span><strong>Malla facial</strong><small>Visualiza puntos y contorno del rostro.</small></span></label><label class="check-row"><input id="option-pose" type="checkbox"><span class="custom-check"></span><span><strong>Pose corporal</strong><small>Requiere el modelo opcional descargado.</small></span></label><div class="privacy-note"><strong>Sin archivos de salida</strong><p>Las imágenes analizadas desde la web se procesan en memoria y no se guardan.</p></div></aside></div>
+        </section>
+
+        <footer class="app-footer"><span>Face Recognizer</span><span>Reconocimiento experimental · procesamiento local</span></footer>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="modal-backdrop hidden" id="delete-modal" role="presentation"><section class="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="delete-title"><button class="modal-close" id="delete-close" aria-label="Cerrar">×</button><span class="modal-warning">!</span><h2 id="delete-title">Eliminar perfil</h2><p id="delete-description">Esta acción borrará sus recortes del dispositivo y dejará el modelo pendiente de entrenamiento.</p><label class="field-label" for="delete-confirm">Escribe <strong>ELIMINAR</strong> para confirmar</label><input class="text-input" id="delete-confirm" autocomplete="off"><div class="modal-actions"><button class="button button-secondary" id="delete-cancel">Cancelar</button><button class="button button-danger" id="delete-submit" disabled>Eliminar perfil</button></div></section></div>
+</body>
+</html>
